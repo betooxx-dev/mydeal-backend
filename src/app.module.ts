@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './auth/auth.module';
 import { AppConfiguration, JoiValidationSchema } from './config';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AppConfiguration, JoiValidationSchema } from './config';
       synchronize: true,
     }),
     AuthModule,
+    TransactionsModule,
   ],
   controllers: [],
   providers: [],
