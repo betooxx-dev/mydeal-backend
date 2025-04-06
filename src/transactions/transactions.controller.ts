@@ -6,7 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto, UpdateTransactionDto } from './dto';
 import { Auth, GetUser } from 'src/auth/decorators';
@@ -14,7 +19,10 @@ import { Auth, GetUser } from 'src/auth/decorators';
 @Auth()
 @Controller('transactions')
 export class TransactionsController {
-  constructor(private readonly transactionsService: TransactionsService) {}
+  constructor(
+    private readonly transactionsService: TransactionsService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
   @Post()
   create(
@@ -46,5 +54,11 @@ export class TransactionsController {
   @Delete(':id')
   remove(@Param('id') id: string, @GetUser('id') userId: string) {
     return this.transactionsService.remove(id, userId);
+  }
+
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFile(@UploadedFile() file: Express.Multer.File) {
+    return this.cloudinaryService.uploadFile(file);
   }
 }

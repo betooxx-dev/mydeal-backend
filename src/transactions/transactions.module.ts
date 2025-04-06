@@ -7,6 +7,7 @@ import { Transaction } from './entities/transaction.entity';
 import { AuthModule } from 'src/auth/auth.module';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
+import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
 @Module({
   controllers: [TransactionsController],
@@ -16,6 +17,7 @@ import { ConfigModule } from '@nestjs/config';
     AuthModule,
     HttpModule,
     ConfigModule,
+    CloudinaryModule
   ],
 })
 export class TransactionsModule {}
