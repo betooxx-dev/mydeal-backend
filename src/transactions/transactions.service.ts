@@ -43,7 +43,7 @@ export class TransactionsService {
   async findAll(userID: string): Promise<Response> {
     try {
       const transactions = await this.transactionsRepository.find({
-        where: { user: { id: userID } },
+        where: { user: { id: userID }, deleted_at: null },
       });
 
       return {
@@ -62,7 +62,7 @@ export class TransactionsService {
   async findOne(id: string, userId: string): Promise<Response> {
     try {
       const transaction = await this.transactionsRepository.findOne({
-        where: { id, user: { id: userId } },
+        where: { id, user: { id: userId }, deleted_at: null },
       });
 
       if (!transaction) throw new NotFoundException('Transaction not found');

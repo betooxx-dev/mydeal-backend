@@ -29,7 +29,10 @@ export class AuthService {
         password: bcrypt.hashSync(password, 10),
       });
 
-      return { ...userData, token: this.getToken({ id: user.id }) };
+      return {
+        message: 'Register success',
+        token: this.getToken({ id: user.id }),
+      };
     } catch (error) {
       console.log(error);
       throw new BadRequestException('Something went wrong' + error.message);
@@ -50,9 +53,10 @@ export class AuthService {
       if (!bcrypt.compareSync(password, user.password))
         throw new UnauthorizedException('Invalid credentials (password)');
 
-      delete user.password;
-
-      return { ...user, token: this.getToken({ id: user.id }) };
+      return {
+        message: 'Login success',
+        token: this.getToken({ id: user.id }),
+      };
     } catch (error) {
       console.log(error);
       throw new BadRequestException('Something went wrong' + error.message);
